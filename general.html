@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI를 가장 잘 쓰는 방법론 · 2026 딥리서치</title>
+<style>
+  :root{
+    --bg:#0b0f1a; --bg2:#111728; --card:#151c30; --card2:#1b2440;
+    --line:#26304d; --ink:#e8ecf6; --mut:#9aa6c4; --dim:#6b779a;
+    --acc:#7c9cff; --acc2:#4fd1c5; --warn:#ffb454; --bad:#ff6b7d; --good:#5ad6a0;
+    --grad:linear-gradient(135deg,#7c9cff,#4fd1c5);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:radial-gradient(1200px 600px at 80% -10%,#16203a 0,transparent 60%),var(--bg);
+    color:var(--ink);font-family:"Pretendard","Segoe UI",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    line-height:1.65;-webkit-font-smoothing:antialiased}
+  a{color:var(--acc);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+  section{padding:54px 0;border-top:1px solid var(--line)}
+  h1,h2,h3{line-height:1.25;margin:0 0 .4em}
+  h2{font-size:1.8rem;letter-spacing:-.01em}
+  h2 .num{font-size:.95rem;color:var(--acc2);font-weight:700;display:block;margin-bottom:4px;letter-spacing:.08em}
+  h3{font-size:1.18rem;color:#cdd6f0}
+  p{color:var(--mut);margin:.5em 0}
+  .lead{font-size:1.08rem;color:#c4cde6}
+  .tag{display:inline-block;font-size:.72rem;padding:2px 9px;border-radius:99px;border:1px solid var(--line);color:var(--mut);background:var(--bg2)}
+  .pill{font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:6px}
+  .pill.p{background:rgba(90,214,160,.14);color:var(--good)}
+  .pill.s{background:rgba(124,156,255,.14);color:var(--acc)}
+  .pill.b{background:rgba(154,166,196,.14);color:var(--mut)}
+  sup.c{color:var(--acc2);font-weight:700;font-size:.7em;cursor:pointer}
+
+  /* HERO */
+  header.hero{padding:70px 0 30px;background:
+     radial-gradient(900px 420px at 15% 0,rgba(124,156,255,.16),transparent 55%),
+     radial-gradient(700px 360px at 95% 10%,rgba(79,209,197,.12),transparent 55%)}
+  .kick{font-size:.82rem;letter-spacing:.18em;text-transform:uppercase;color:var(--acc2);font-weight:700}
+  .hero h1{font-size:2.7rem;letter-spacing:-.02em;margin-top:10px;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .sub{font-size:1.15rem;color:#c4cde6;max-width:760px}
+  .thesis{margin-top:26px;padding:18px 22px;border-left:3px solid var(--acc2);background:var(--card);border-radius:0 12px 12px 0}
+  .thesis b{color:#fff}
+
+  /* STAT STRIP */
+  .strip{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:30px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 14px;text-align:center}
+  .stat .n{font-size:1.7rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stat .l{font-size:.74rem;color:var(--dim);margin-top:2px}
+
+  /* GRID CARDS */
+  .grid{display:grid;gap:16px}
+  .g2{grid-template-columns:1fr 1fr}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}
+  .card.hl{background:linear-gradient(180deg,var(--card2),var(--card));border-color:#2f3c63}
+  .card h3{margin-top:0;display:flex;align-items:center;gap:8px}
+  .ico{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:rgba(124,156,255,.14);font-size:1rem}
+  .card .def{color:#c4cde6;font-size:.95rem}
+  .card .app{margin-top:10px;font-size:.86rem;color:var(--mut);border-top:1px dashed var(--line);padding-top:10px}
+  .card .app b{color:var(--acc2)}
+
+  /* PIPELINE */
+  .pipe{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;margin-top:18px}
+  .step{flex:1;min-width:150px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;position:relative}
+  .step .s{font-size:.72rem;color:var(--acc2);font-weight:700}
+  .step h4{margin:4px 0 6px;font-size:1rem}
+  .step p{font-size:.82rem;margin:0}
+  .arrow{align-self:center;color:var(--dim);font-size:1.3rem}
+
+  /* TABLE */
+  table{width:100%;border-collapse:collapse;margin-top:16px;font-size:.9rem;overflow:hidden;border-radius:12px}
+  th,td{padding:11px 13px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{background:var(--card2);color:#cdd6f0;font-size:.8rem;letter-spacing:.02em}
+  tbody tr:hover{background:rgba(124,156,255,.05)}
+  td .mini{font-size:.8rem;color:var(--dim)}
+
+  /* BAR CHART */
+  .chart{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px}
+  .bar{display:grid;grid-template-columns:140px 1fr 64px;gap:12px;align-items:center;margin:11px 0}
+  .bar .lab{font-size:.84rem;color:#cdd6f0}
+  .bar .track{background:var(--bg2);border-radius:8px;height:22px;overflow:hidden;border:1px solid var(--line)}
+  .bar .fill{height:100%;border-radius:8px 0 0 8px;background:var(--grad);display:flex;align-items:center}
+  .bar .val{font-size:.84rem;font-weight:700;color:#cdd6f0;text-align:right}
+  .bar.neg .fill{background:linear-gradient(135deg,#ff6b7d,#ffb454)}
+  .cap{font-size:.78rem;color:var(--dim);margin-top:10px}
+
+  /* CONCEPT MAP */
+  .map{margin-top:18px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:8px}
+  .map svg{width:100%;height:auto;display:block}
+
+  /* CALLOUT */
+  .callout{border-radius:16px;padding:20px 22px;margin-top:18px}
+  .callout.warn{background:rgba(255,180,84,.08);border:1px solid rgba(255,180,84,.35)}
+  .callout.bad{background:rgba(255,107,125,.07);border:1px solid rgba(255,107,125,.3)}
+  .callout h3{color:#fff;margin-top:0}
+  .callout.warn h3::before{content:"⚠ "}
+  .callout.bad h3::before{content:"✕ "}
+
+  /* SOURCES */
+  ol.src{padding-left:22px;font-size:.86rem;columns:1}
+  ol.src li{margin:7px 0;color:var(--mut);break-inside:avoid}
+  ol.src a{word-break:break-all}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.78rem;color:var(--dim);margin:6px 0 0}
+  .runbook-list{margin:10px 0 0;padding-left:18px;color:var(--mut);font-size:.9rem}
+  .runbook-list li{margin:5px 0}
+  .gate-table td:first-child{white-space:nowrap}
+  .template-card pre{white-space:pre-wrap;margin:10px 0 0;color:#c4cde6;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px;font:.86rem/1.55 "Cascadia Code","Consolas",monospace}
+
+  /* NAV */
+  nav.toc{position:sticky;top:0;z-index:9;background:rgba(11,15,26,.86);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  nav.toc .wrap{display:flex;gap:6px;overflow-x:auto;padding:10px 22px}
+  nav.toc a{font-size:.8rem;color:var(--mut);white-space:nowrap;padding:6px 11px;border-radius:8px}
+  nav.toc a:hover{background:var(--card);text-decoration:none;color:#fff}
+
+  footer{padding:40px 0 70px;color:var(--dim);font-size:.82rem}
+  @media(max-width:820px){
+    .strip{grid-template-columns:repeat(2,1fr)} .g2,.g3{grid-template-columns:1fr}
+    .hero h1{font-size:2rem} .bar{grid-template-columns:96px 1fr 54px}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kick">Deep Research · 2026.06 기준</div>
+    <h1>AI를 가장 잘 쓰는 방법론</h1>
+    <p class="sub">제품 개발과 보편 업무, 두 관점에서 본 실행 프레임워크 — 그리고 그 속에 등장하는 서브에이전트·하네스·컨텍스트 엔지니어링·오케스트레이션·검증 루프가 실제로 어떻게 맞물리는지에 대한 구체적 해설.</p>
+    <div class="thesis">
+      <b>핵심 명제.</b> 잘 쓴다는 것은 더 똑똑한 모델을 고르는 문제가 아니라 <b>컨텍스트(맥락) 엔지니어링 → 작업 분해·오케스트레이션 → 검증 루프 → 인간 감독</b>이라는 시스템을 설계하는 문제다.<sup class="c">1,2</sup> 단, AI는 만능 가속기가 아니라 <b>증폭기(amplifier)</b>에 가깝다 — 좋은 시스템 위에선 크게, 나쁜 시스템 위에선 미미하게(때로 마이너스로) 작동한다.<sup class="c">6,8</sup>
+    </div>
+
+    <div style="font-size:.82rem;color:var(--dim);margin-top:14px">▸ 함께 보기: <a href="https://minsuk-robert.github.io/claude-ai-methodology/" style="color:var(--acc2)">Claude 관점 특화 버전</a> · <a href="https://minsuk-robert.github.io/claude-methodology-skills/" target="_blank" rel="noopener" style="color:var(--acc2)">실행 스킬 4종</a>. 이 페이지는 vendor-중립 일반 버전입니다.</div>
+
+    <div class="strip">
+      <div class="stat"><div class="n">28</div><div class="l">수집 소스</div></div>
+      <div class="stat"><div class="n">128</div><div class="l">추출 주장</div></div>
+      <div class="stat"><div class="n">24</div><div class="l">교차검증 통과</div></div>
+      <div class="stat"><div class="n">1</div><div class="l">반증·폐기</div></div>
+      <div class="stat"><div class="n">6</div><div class="l">검색 각도</div></div>
+    </div>
+  </div>
+</header>
+
+<nav class="toc"><div class="wrap">
+  <a href="#concepts">① 핵심 개념</a>
+  <a href="#patterns">② 5가지 에이전트 패턴</a>
+  <a href="#dev">③ 제품 개발 워크플로우</a>
+  <a href="#work">④ 보편 업무 워크플로우</a>
+  <a href="#runbook">⑤ 실제 수행 방침</a>
+  <a href="#map">⑥ 개념 관계도</a>
+  <a href="#data">⑦ 데이터 & 현실 점검</a>
+  <a href="#sources">출처</a>
+</div></nav>
+
+<!-- ① CONCEPTS -->
+<section id="concepts"><div class="wrap">
+  <h2><span class="num">① 핵심 개념</span>방법론을 떠받치는 6개의 빌딩블록</h2>
+  <p class="lead">아래 개념들은 따로 노는 용어가 아니라 하나의 파이프라인을 이루는 부품이다. 각 카드의 <b style="color:var(--acc2)">적용</b> 줄이 "이 방법론에서 실제로 어디에 끼는지"를 가리킨다.</p>
+
+  <div class="grid g3" style="margin-top:18px">
+    <div class="card hl">
+      <h3><span class="ico">🧩</span>Context Engineering</h3>
+      <div class="def">매 추론 단계에서 <b>한정된 컨텍스트 창에 "어떤 토큰을 채울지" 큐레이션</b>하는 기술. 프롬프트 작성을 넘어, 도구·기록·외부지식·이전 결과를 최적 구성으로 관리한다.</div>
+      <div class="app"><b>적용</b> · 컨텍스트는 유한 자원 — 길어질수록 성능이 떨어지는 "context rot"가 존재. Anthropic은 <b>Compaction(요약 압축)·Note-Taking(외부 메모)·Sub-Agent(맥락 격리)</b> 3기법을 권장.<sup class="c">1</sup></div>
+    </div>
+    <div class="card hl">
+      <h3><span class="ico">⚙️</span>Harness / 하네스</h3>
+      <div class="def">모델 자체가 아니라 모델을 <b>감싸 동작하게 만드는 실행 골격</b>. 도구 정의·권한·루프·메모리·중단/재시작·관측을 담당하는 "엔진룸".</div>
+      <div class="app"><b>적용</b> · 같은 모델이라도 하네스 설계가 결과를 가른다. Claude Code·Cursor 등은 본질적으로 잘 만든 하네스다. 하네스가 컨텍스트 엔지니어링과 검증 루프를 강제·자동화한다.<sup class="c">2</sup></div>
+    </div>
+    <div class="card hl">
+      <h3><span class="ico">🛰️</span>Sub-Agent / 서브에이전트</h3>
+      <div class="def">메인 에이전트가 호출하는 <b>독립된 컨텍스트·목표를 가진 하위 작업자</b>. 자기 작업만 보고 "결론"만 돌려줘 메인 맥락을 깨끗하게 유지.</div>
+      <div class="app"><b>적용</b> · 탐색·검색처럼 토큰을 많이 먹는 일을 격리해 위임 → 메인은 의사결정에 집중. 컨텍스트 엔지니어링의 3대 기법 중 하나이자 멀티에이전트의 단위.<sup class="c">1,3</sup></div>
+    </div>
+    <div class="card">
+      <h3><span class="ico">🎼</span>Orchestration</h3>
+      <div class="def">리드(오케스트레이터)가 작업을 <b>분해 → 여러 워커에 병렬 분배 → 결과 종합</b>하는 조정 구조. 동기·비동기, 직렬·병렬을 설계한다.</div>
+      <div class="app"><b>적용</b> · "orchestrator-workers" 패턴이 가장 보편적 출발점. 리드가 계획을, 서브에이전트가 실행을 담당.<sup class="c">3,4</sup></div>
+    </div>
+    <div class="card">
+      <h3><span class="ico">👥</span>Multi-Agent</h3>
+      <div class="def">여러 에이전트가 역할을 나눠 협업하는 시스템. <b>분해·병렬·종합</b>으로 단일 에이전트의 컨텍스트·관점 한계를 넘는다.</div>
+      <div class="app"><b>적용</b> · 폭넓은 탐색형 과제에 강함. 단, 토큰 비용이 급증하고(아래 차트) 실패 모드도 늘어 항상 우월하진 않다.<sup class="c">3,7</sup></div>
+    </div>
+    <div class="card">
+      <h3><span class="ico">🔁</span>Eval / Verification Loop</h3>
+      <div class="def">생성한 결과를 <b>별도 평가자가 채점·피드백</b>하고 다시 고치는 순환. Evaluator-Optimizer = Generator-Verifier(동일 개념).</div>
+      <div class="app"><b>적용</b> · "성공 기준이 명확할 때" 가장 효과적. 코드는 테스트·리뷰가 검증자, 비개발은 외부 출처 대조가 검증자. <b>인간 리뷰는 여전히 필수.</b><sup class="c">4,5</sup></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ② PATTERNS -->
+<section id="patterns"><div class="wrap">
+  <h2><span class="num">② 토대</span>Anthropic의 5가지 에이전트 패턴 + Workflow vs Agent</h2>
+  <p class="lead">방법론을 만들기 전, 먼저 "워크플로우(정해진 코드 경로)"와 "에이전트(모델이 스스로 경로를 정함)"를 구분하는 것이 출발점이다. 그 위에 5가지 조합 패턴이 있다.<sup class="c">2</sup></p>
+
+  <table>
+    <thead><tr><th style="width:170px">패턴</th><th>구조</th><th>언제 쓰나</th></tr></thead>
+    <tbody>
+      <tr><td><b>1. Prompt Chaining</b><div class="mini">직렬 연결</div></td><td>출력→다음 입력으로 단계 분할</td><td>작업을 고정된 하위 단계로 깔끔히 쪼갤 수 있을 때</td></tr>
+      <tr><td><b>2. Routing</b><div class="mini">분류·분기</div></td><td>입력을 유형 분류 후 전용 경로로</td><td>유형별 처리가 명확히 다를 때(문의 분류 등)</td></tr>
+      <tr><td><b>3. Parallelization</b><div class="mini">병렬화</div></td><td>분할(sectioning)·다수결(voting)</td><td>독립 하위작업 동시 처리 / 다관점 교차검증</td></tr>
+      <tr><td><b>4. Orchestrator–Workers</b><div class="mini">오케스트레이션 ★</div></td><td>리드가 동적으로 분해→워커 위임→종합</td><td>하위작업을 미리 못 정하는 복잡·개방형 과제</td></tr>
+      <tr><td><b>5. Evaluator–Optimizer</b><div class="mini">검증 루프 ★</div></td><td>생성↔평가 순환으로 점진 개선</td><td>명확한 평가 기준이 있고 반복이 품질을 올릴 때</td></tr>
+    </tbody>
+  </table>
+  <p class="cap">★ 표시(4·5)가 본 방법론의 두 축. "단순한 것부터" 원칙 — 단일 프롬프트로 충분하면 멀티에이전트를 쓰지 말고, 필요할 때만 <b>orchestrator-subagent 패턴으로 시작</b>하라는 것이 Anthropic의 권고.<sup class="c">2,4</sup></p>
+</div></section>
+
+<!-- ③ DEV -->
+<section id="dev"><div class="wrap">
+  <h2><span class="num">③ 관점 1 · 제품 개발</span>에이전틱 코딩 풀-사이클 워크플로우</h2>
+  <p class="lead">개발에서 AI를 잘 쓴다는 것은 "코드를 받아쓰는 것"이 아니라 <b>스펙→계획→구현→검증→통합</b>의 루프를 설계하고 그 안에 서브에이전트를 배치하는 것이다.<sup class="c">9,11</sup></p>
+
+  <div class="pipe">
+    <div class="step"><div class="s">STEP 1</div><h4>Spec-First</h4><p>모호함을 코드 전에 제거. 요구·제약·성공기준을 문서로 먼저 합의.</p></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="s">STEP 2</div><h4>Plan</h4><p>플래너 에이전트가 변경 지점·아키텍처·리스크를 단계 계획으로.</p></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="s">STEP 3</div><h4>TDD</h4><p>테스트를 먼저 작성 → 통과를 향해 구현. 테스트가 곧 검증자.</p></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="s">STEP 4</div><h4>Sub-Agent 병렬</h4><p>독립 작업을 worktree로 격리해 동시 구현(충돌 방지).</p></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="s">STEP 5</div><h4>Review / QA 루프</h4><p>리뷰어·검증자 에이전트가 diff를 적대적으로 점검 → 통과만 머지.</p></div>
+  </div>
+
+  <div class="grid g2" style="margin-top:22px">
+    <div class="card">
+      <h3>구성 요소가 개념과 맺는 관계</h3>
+      <table style="margin-top:8px">
+        <thead><tr><th>실무 장치</th><th>대응 개념</th></tr></thead>
+        <tbody>
+          <tr><td>Spec / CLAUDE.md / 규칙파일</td><td><span class="pill s">Context Eng.</span></td></tr>
+          <tr><td>Claude Code · Cursor · Codex</td><td><span class="pill s">Harness</span></td></tr>
+          <tr><td>플래너·구현·리뷰어 분리</td><td><span class="pill s">Orchestration</span></td></tr>
+          <tr><td>git worktree 병렬 작업자</td><td><span class="pill s">Sub-Agent</span></td></tr>
+          <tr><td>테스트·코드리뷰·QA 에이전트</td><td><span class="pill s">Eval Loop</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h3>위임 수준(delegation)의 현실</h3>
+      <p>2026년 Anthropic 보고서 기준 개발자의 약 <b style="color:var(--acc2)">60%가 일상적으로 AI를 사용</b>하지만, 작업을 <b>완전 위임</b>(자율 실행)하는 비율은 과제에 따라 <b>0~20%</b>에 그친다 — 즉 대부분은 "감독되는 협업" 모드.<sup class="c">9</sup></p>
+      <div class="bar"><div class="lab">AI 사용(보조)</div><div class="track"><div class="fill" style="width:60%"></div></div><div class="val">~60%</div></div>
+      <div class="bar"><div class="lab">완전 위임</div><div class="track"><div class="fill" style="width:20%"></div></div><div class="val">0–20%</div></div>
+      <p class="cap">시사점: "자율 에이전트"는 목표이되, 현재 ROI의 중심은 <b>인간이 검증 루프를 쥔 협업</b>에 있다.</p>
+    </div>
+  </div>
+
+  <div class="callout warn" style="margin-top:18px">
+    <h3>흔한 실패 패턴(피해야 할 것)</h3>
+    <p>스펙 없이 바로 코딩 위임 / 검증 루프 부재로 그럴듯한 오답 통과 / 한 컨텍스트에 모든 걸 욱여넣어 context rot 유발 / 멀티에이전트 남용으로 토큰만 폭증. 멀티에이전트 시스템이 무너지는 <b>14가지 실패 모드</b>가 학술적으로 분류돼 있다(스펙 모호, 역할 혼선, 종료조건 부재 등).<sup class="c">7</sup></p>
+  </div>
+</div></section>
+
+<!-- ④ WORK -->
+<section id="work"><div class="wrap">
+  <h2><span class="num">④ 관점 2 · 보편 업무</span>비개발 지식근로의 체계적 AI 활용</h2>
+  <p class="lead">리서치·문서·기획·영업·분석에서도 동일한 골격(분해→실행→검증→감독)이 적용된다. 다만 "검증자"가 테스트가 아니라 <b>외부 출처 대조와 명시적 성공 기준</b>이라는 점이 다르다.<sup class="c">5</sup></p>
+
+  <table>
+    <thead><tr><th style="width:120px">업무</th><th>분해 / 실행(서브에이전트적 사용)</th><th>검증 루프(무엇이 검증자인가)</th></tr></thead>
+    <tbody>
+      <tr><td><b>리서치</b></td><td>질문을 여러 각도로 쪼개 병렬 검색 → 소스 수집 → 종합(본 보고서가 그 예시)</td><td>주장별 다수 출처 교차검증 · 1차 출처 우선</td></tr>
+      <tr><td><b>문서 작성</b></td><td>개요(스펙) → 섹션별 초안 → 통합 → 톤 정리</td><td>사실 체크리스트 · 원문 인용 대조</td></tr>
+      <tr><td><b>기획 / 전략</b></td><td>옵션 N개를 독립 생성 → 평가 패널이 채점 → 승자 종합</td><td>명시적 평가 기준(MECE·So-What) · 반대 관점 에이전트</td></tr>
+      <tr><td><b>영업 / 고객</b></td><td>세그먼트별 메시지 변형 병렬 생성 → 라우팅</td><td>실제 응답률·도메인 사실 검증</td></tr>
+      <tr><td><b>데이터 분석</b></td><td>가설 분해 → 쿼리/계산 위임 → 시각화</td><td>수치 재현·역산 · 이상치 점검</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout bad" style="margin-top:18px">
+    <h3>비개발 영역의 핵심 리스크: 비판적 사고의 위축</h3>
+    <p>마이크로소프트·CMU의 CHI 2025 연구(지식근로자 319명)에 따르면, <b>AI에 대한 신뢰가 높을수록 사용자의 비판적 사고가 줄고</b>, 반대로 <b>자기 능력에 대한 확신이 높을수록 비판적 사고가 늘었다.</b> 즉 AI는 루틴 인지 노력을 덜어주지만, "검증을 사람이 쥐지 않으면" 품질이 조용히 무너진다.<sup class="c">5</sup></p>
+    <p style="margin-bottom:0">실무 처방: ① 작업 전 <b>성공 기준을 사람이 먼저 정의</b> ② 결과는 <b>외부 출처로 대조</b> ③ AI를 "최종 답"이 아니라 "초안 + 검증 대상"으로 취급.</p>
+  </div>
+</div></section>
+
+<!-- ⑤ RUNBOOK -->
+<section id="runbook"><div class="wrap">
+  <h2><span class="num">⑤ 실제 수행 방침</span>아이디어를 결과물로 바꾸는 작업 운영 매뉴얼</h2>
+  <p class="lead">실행 단계에서는 AI에게 "좋게 해줘"가 아니라 <b>작업 계약·권한·검증 기준·종료 조건</b>을 준다. 단일 프롬프트로 끝나는 일은 단일 루프로, 정보량·관점·독립성이 커질 때만 병렬/서브에이전트로 승격한다.<sup class="c">2,25,26</sup></p>
+
+  <div class="grid g2" style="margin-top:18px">
+    <div class="card hl">
+      <h3>1. 작업 계약서부터 고정</h3>
+      <p>모든 실행은 10분짜리 작업 계약서로 시작한다. 계약서가 없으면 모델은 목표를 추측하고, 검증자는 무엇을 통과시켜야 하는지 모른다.</p>
+      <ul class="runbook-list">
+        <li><b>목표/비목표</b>: 이번 라운드에서 만들 것과 일부러 하지 않을 것</li>
+        <li><b>입력 자료</b>: 신뢰 가능한 원문, 코드 위치, 고객 메모, 데이터 범위</li>
+        <li><b>산출물 형식</b>: HTML 섹션, PR, 표, 보고서, 테스트 결과처럼 제출 단위를 명시</li>
+        <li><b>성공 기준</b>: 사실 정확도, 테스트 통과, 스크린샷 확인, 고객 승인 등 측정 가능한 게이트</li>
+        <li><b>권한/금지</b>: 삭제, 결제, 고객 발송, 배포, 개인정보 처리처럼 승인 없이는 못 하는 일</li>
+      </ul>
+    </div>
+    <div class="card hl">
+      <h3>2. 위임 레벨을 먼저 정한다</h3>
+      <table style="margin-top:8px">
+        <thead><tr><th>레벨</th><th>AI가 할 수 있는 일</th><th>사람 게이트</th></tr></thead>
+        <tbody>
+          <tr><td><b>L0 초안</b></td><td>아이디어, 구조, 문장 후보</td><td>사람이 전부 선택</td></tr>
+          <tr><td><b>L1 보조 실행</b></td><td>정해진 파일 읽기, 표 정리, 단순 수정</td><td>diff 확인</td></tr>
+          <tr><td><b>L2 격리 작업</b></td><td>분리된 파일/브랜치/워크트리에서 구현</td><td>테스트·리뷰 통과</td></tr>
+          <tr><td><b>L3 병렬 에이전트</b></td><td>서로 독립된 리서치·검증·구현을 동시 수행</td><td>오케스트레이터가 통합</td></tr>
+          <tr><td><b>L4 제한 자율</b></td><td>반복 운영 작업을 종료조건 안에서 수행</td><td>고위험 액션은 승인</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <table class="gate-table">
+    <thead><tr><th style="width:150px">단계</th><th>사람이 고정할 것</th><th>AI/서브에이전트가 할 것</th><th>통과 게이트</th></tr></thead>
+    <tbody>
+      <tr><td><b>0. Intake</b><div class="mini">맥락 수집</div></td><td>문제, 사용자, 비목표, 민감정보 범위</td><td>누락 질문·리스크·필요 자료 목록화</td><td>요구·제약·성공 기준이 한 문서에 있음</td></tr>
+      <tr><td><b>1. Plan</b><div class="mini">분해</div></td><td>우선순위와 허용 범위</td><td>작업을 독립 단위로 쪼개고 위임 레벨 제안</td><td>작업별 입력/출력/검증자가 보임</td></tr>
+      <tr><td><b>2. Execute</b><div class="mini">생성</div></td><td>고위험 승인 지점</td><td>초안 작성, 코드 수정, 리서치, 대안 생성</td><td>산출물이 지정 형식으로 제출됨</td></tr>
+      <tr><td><b>3. Verify</b><div class="mini">검증</div></td><td>최종 판단과 예외 승인</td><td>테스트, 출처 대조, 스크린샷, 역산, 적대적 리뷰</td><td>실패 항목이 수정되거나 명시적으로 보류됨</td></tr>
+      <tr><td><b>4. Release</b><div class="mini">배포</div></td><td>배포 승인, 고객 발송, 비용 발생 액션</td><td>빌드, 스모크 테스트, 릴리스 노트 초안</td><td>롤백 경로와 확인 URL이 있음</td></tr>
+      <tr><td><b>5. Learn</b><div class="mini">재사용</div></td><td>다음 기준 업데이트 여부</td><td>실패 원인, 좋은 프롬프트, 체크리스트를 운영 자산화</td><td>다음 작업에서 재사용할 규칙이 남음</td></tr>
+    </tbody>
+  </table>
+
+  <div class="grid g3" style="margin-top:18px">
+    <div class="card">
+      <h3>병렬화 규칙</h3>
+      <p>병렬 작업은 <b>쓰기 범위가 겹치지 않을 때</b>만 실행한다. 리서치 에이전트는 결론과 근거 링크만, 구현 에이전트는 수정 파일과 검증 결과만 반환하게 해 메인 컨텍스트를 작게 유지한다.<sup class="c">3</sup></p>
+    </div>
+    <div class="card">
+      <h3>검증 규칙</h3>
+      <p>코드는 테스트/린트/스모크, UI는 모바일·데스크톱 스크린샷, 수치는 재계산, 주장은 1차 출처 대조를 기본 게이트로 둔다. AI 결과물은 "정답"이 아니라 <b>검증 대상 초안</b>이다.<sup class="c">5,25</sup></p>
+    </div>
+    <div class="card">
+      <h3>운영 로그</h3>
+      <p>프롬프트, 입력 자료, 도구 호출, 변경 diff, 실패 사유, 최종 승인자를 남긴다. 로그가 있어야 나중에 평가셋·가드레일·체크리스트로 환원할 수 있다.<sup class="c">25,26</sup></p>
+    </div>
+  </div>
+
+  <div class="card template-card" style="margin-top:18px">
+    <h3>작업 티켓 템플릿</h3>
+    <pre>목표:
+비목표:
+입력 자료:
+수정/작성 범위:
+산출물 형식:
+성공 기준:
+검증 방법:
+권한/금지 액션:
+고위험 승인 지점:
+완료 조건:
+롤백/되돌림 방법:
+다음 작업으로 남길 운영 규칙:</pre>
+  </div>
+
+  <div class="callout warn" style="margin-top:18px">
+    <h3>현장 운용 원칙</h3>
+    <p>개인정보, 결제, 고객 발송, 법무/인사 판단, 운영 데이터 삭제, 실제 배포처럼 되돌리기 어렵거나 외부 영향을 주는 액션은 AI가 초안·체크리스트·명령 후보까지만 만든다. 실행은 사람이 승인한다. 반대로 리서치 초안, 문서 구조화, 테스트 데이터 생성, 격리된 UI 시안처럼 저위험 작업은 L2~L3까지 올려 속도를 낸다.</p>
+  </div>
+</div></section>
+
+<!-- ⑥ MAP -->
+<section id="map"><div class="wrap">
+  <h2><span class="num">⑥ 개념 관계도</span>한 장으로 보는 전체 파이프라인</h2>
+  <p class="lead">왼쪽(설계)에서 오른쪽(산출)으로 흐른다. 위쪽 띠는 개념, 아래 박스는 그 개념이 실제로 구현되는 장치다.</p>
+  <div class="map">
+  <svg viewBox="0 0 980 360" role="img" aria-label="개념 관계도">
+    <defs>
+      <linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#7c9cff"/><stop offset="1" stop-color="#4fd1c5"/></linearGradient>
+      <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#6b779a"/></marker>
+    </defs>
+    <!-- flow line -->
+    <line x1="40" y1="60" x2="940" y2="60" stroke="url(#g)" stroke-width="3"/>
+    <!-- concept nodes -->
+    <g font-size="13" font-weight="700" text-anchor="middle">
+      <g><circle cx="120" cy="60" r="9" fill="#7c9cff"/><text x="120" y="38" fill="#e8ecf6">Context Eng.</text></g>
+      <g><circle cx="330" cy="60" r="9" fill="#8fb0ff"/><text x="330" y="38" fill="#e8ecf6">Orchestration</text></g>
+      <g><circle cx="540" cy="60" r="9" fill="#6fd0cf"/><text x="540" y="38" fill="#e8ecf6">Sub-Agents (병렬)</text></g>
+      <g><circle cx="750" cy="60" r="9" fill="#4fd1c5"/><text x="750" y="38" fill="#e8ecf6">Eval Loop</text></g>
+      <g><circle cx="912" cy="60" r="9" fill="#5ad6a0"/><text x="905" y="38" fill="#e8ecf6">산출</text></g>
+    </g>
+    <!-- harness band -->
+    <rect x="40" y="92" width="900" height="34" rx="9" fill="rgba(124,156,255,.10)" stroke="#26304d"/>
+    <text x="490" y="114" text-anchor="middle" font-size="13" fill="#9aa6c4">⚙️ HARNESS — 위 전 과정을 감싸 강제·자동화하는 실행 골격 (Claude Code / Cursor / Codex …)</text>
+    <!-- impl boxes -->
+    <g font-size="12" text-anchor="middle">
+      <g>
+        <rect x="40" y="150" width="170" height="120" rx="12" fill="#151c30" stroke="#26304d"/>
+        <text x="125" y="174" fill="#cdd6f0" font-weight="700">맥락 큐레이션</text>
+        <text x="125" y="200" fill="#9aa6c4">Spec · 규칙파일</text>
+        <text x="125" y="222" fill="#9aa6c4">Compaction</text>
+        <text x="125" y="244" fill="#9aa6c4">Note-Taking</text>
+      </g>
+      <g>
+        <rect x="250" y="150" width="170" height="120" rx="12" fill="#151c30" stroke="#26304d"/>
+        <text x="335" y="174" fill="#cdd6f0" font-weight="700">리드 에이전트</text>
+        <text x="335" y="200" fill="#9aa6c4">계획·분해</text>
+        <text x="335" y="222" fill="#9aa6c4">워커에 위임</text>
+        <text x="335" y="244" fill="#9aa6c4">결과 종합</text>
+      </g>
+      <g>
+        <rect x="460" y="150" width="170" height="120" rx="12" fill="#151c30" stroke="#26304d"/>
+        <text x="545" y="174" fill="#cdd6f0" font-weight="700">격리 작업자</text>
+        <text x="545" y="200" fill="#9aa6c4">worktree 병렬</text>
+        <text x="545" y="222" fill="#9aa6c4">독립 컨텍스트</text>
+        <text x="545" y="244" fill="#9aa6c4">결론만 반환</text>
+      </g>
+      <g>
+        <rect x="670" y="150" width="170" height="120" rx="12" fill="#151c30" stroke="#26304d"/>
+        <text x="755" y="174" fill="#cdd6f0" font-weight="700">검증자</text>
+        <text x="755" y="200" fill="#9aa6c4">테스트·리뷰</text>
+        <text x="755" y="222" fill="#9aa6c4">출처 대조</text>
+        <text x="755" y="244" fill="#9aa6c4">적대적 점검</text>
+      </g>
+      <g>
+        <rect x="858" y="150" width="82" height="120" rx="12" fill="rgba(90,214,160,.10)" stroke="#2f5e4d"/>
+        <text x="899" y="200" fill="#5ad6a0" font-weight="700">통과</text>
+        <text x="899" y="222" fill="#5ad6a0" font-weight="700">머지</text>
+      </g>
+    </g>
+    <!-- arrows between boxes -->
+    <g stroke="#6b779a" stroke-width="2">
+      <line x1="210" y1="210" x2="248" y2="210" marker-end="url(#ar)"/>
+      <line x1="420" y1="210" x2="458" y2="210" marker-end="url(#ar)"/>
+      <line x1="630" y1="210" x2="668" y2="210" marker-end="url(#ar)"/>
+      <line x1="840" y1="210" x2="856" y2="210" marker-end="url(#ar)"/>
+    </g>
+    <!-- feedback loop -->
+    <path d="M755 270 q0 60 -210 60 q-210 0 -210 -60" fill="none" stroke="#ff6b7d" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ar)"/>
+    <text x="545" y="350" text-anchor="middle" font-size="12" fill="#ff8a98">검증 실패 시 재작업 피드백 (Evaluator → Optimizer)</text>
+    <!-- human -->
+    <text x="490" y="20" text-anchor="middle" font-size="12" fill="#ffb454">👤 인간 감독: 성공 기준 정의 · 최종 리뷰 (전 구간 관통)</text>
+  </svg>
+  </div>
+</div></section>
+
+<!-- ⑦ DATA -->
+<section id="data"><div class="wrap">
+  <h2><span class="num">⑦ 데이터 & 현실 점검</span>효과는 실재하지만, 조건부다</h2>
+
+  <div class="chart">
+    <h3 style="margin-top:0">멀티에이전트 vs 단일 에이전트 (Anthropic 자체 평가)</h3>
+    <div class="bar"><div class="lab">성능 우위</div><div class="track"><div class="fill" style="width:90%"></div></div><div class="val">+90.2%</div></div>
+    <div class="bar"><div class="lab">소요시간 단축</div><div class="track"><div class="fill" style="width:90%"></div></div><div class="val">~90%↓</div></div>
+    <div class="bar"><div class="lab">토큰 소비</div><div class="track"><div class="fill" style="width:100%"></div></div><div class="val">15×</div></div>
+    <p class="cap">리드(Opus 4) + 서브에이전트(Sonnet 4) 구성이 단일 대비 내부 리서치 평가에서 90.2% 우수, 그러나 토큰은 약 15배. <b>vendor(Anthropic) 자체 평가</b>라는 한계를 감안할 것.<sup class="c">3</sup></p>
+  </div>
+
+  <div class="chart">
+    <h3 style="margin-top:0">반대 증거 — METR 무작위대조시험(숙련 오픈소스 개발자 16명)</h3>
+    <div class="bar"><div class="lab">사전 기대(빨라짐)</div><div class="track"><div class="fill" style="width:50%"></div></div><div class="val">−24%</div></div>
+    <div class="bar"><div class="lab">사후 체감(빨라짐)</div><div class="track"><div class="fill" style="width:42%"></div></div><div class="val">−20%</div></div>
+    <div class="bar neg"><div class="lab">실제 측정</div><div class="track"><div class="fill" style="width:40%"></div></div><div class="val">+19%↑</div></div>
+    <p class="cap">개발자들은 AI로 24% 빨라질 것이라 예측했고 끝난 뒤에도 20% 빨라졌다고 믿었지만, <b>실제로는 작업이 19% 더 느려졌다</b>(2025초, 친숙한 대형 리포 한정). "체감"과 "실측"의 괴리를 보여주는 대표 사례.<sup class="c">8</sup></p>
+  </div>
+
+  <div class="grid g2" style="margin-top:18px">
+    <div class="callout warn" style="margin-top:0">
+      <h3>증폭기 가설 (DORA 2025)</h3>
+      <p>Google의 DORA 보고서는 AI를 <b>조직 역량의 증폭기</b>로 규정한다 — 건강한 시스템·프로세스를 가진 팀에선 효과가 크게, 그렇지 못한 팀에선 미미하거나 마이너스로 증폭된다. 즉 <b>ROI는 모델이 아니라 조직 시스템에서 나온다.</b><sup class="c">6</sup></p>
+    </div>
+    <div class="callout bad" style="margin-top:0">
+      <h3>반증·폐기된 주장 (검증의 정직성)</h3>
+      <p>"효과적 에이전틱 코딩엔 <i>작업계약·권한등급·평가·감사로그·롤백</i>의 5대 통제 레이어가 <b>반드시</b> 필요하다"는 한 블로그 주장은 3:0 만장일치로 <b>반증·폐기</b>했다(1차 출처 근거 부재). 그럴듯한 프레임워크라도 출처가 약하면 본 보고서에서 제외했다.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <h3>⚖️ 종합 판단 — 모순을 어떻게 읽을까</h3>
+    <p>"90.2% 우수"(vendor 낙관)와 "19% 둔화"(독립 비관)는 충돌이 아니라 <b>조건의 차이</b>다. 전자는 <b>폭넓은 탐색형·병렬화 가능 과제 + 잘 설계된 하네스</b>, 후자는 <b>숙련자가 이미 빠삭한 코드베이스 + 도구 마찰</b>. 결론: 방법론(분해·검증·감독)을 갖추고 <b>적합한 과제에 적용</b>할 때 AI는 강력하며, 무차별 적용은 역효과를 낼 수 있다.</p>
+  </div>
+
+  <div class="card" style="margin-top:16px;background:var(--bg2)">
+    <h3 style="font-size:1rem">🔎 남은 열린 질문 (추가 검증 필요)</h3>
+    <ul style="color:var(--mut);font-size:.9rem;margin:6px 0 0">
+      <li>비개발 검증 루프의 <b>정량 효과</b>를 다룬 RCT가 아직 빈약 — CHI 2025는 자기보고 기반.</li>
+      <li>METR의 19% 둔화가 2026년 개선된 하네스에서도 재현되는지 미확인.</li>
+      <li>DORA가 말하는 "효과를 가르는 조직 실천" 중 ROI 기여 1위 요소가 무엇인지.</li>
+    </ul>
+  </div>
+</div></section>
+
+<!-- SOURCES -->
+<section id="sources"><div class="wrap">
+  <h2><span class="num">출처</span>인용 & 근거</h2>
+  <div class="legend">
+    <span><span class="pill p">primary</span> 1차(공식·연구)</span>
+    <span><span class="pill s">secondary</span> 2차(정리·해설)</span>
+    <span><span class="pill b">blog</span> 블로그/실무기</span>
+  </div>
+  <p class="cap" style="margin-top:8px">⚠ 신뢰도 주의: 핵심 수치(90.2%·15×) 다수가 Anthropic 자체 평가 출처에 의존. 이를 견제하기 위해 비-vendor 독립 출처(METR·Berkeley·DORA)를 의도적으로 병기함. 2025–2026 자료 집중.</p>
+  <ol class="src">
+    <li><span class="pill p">primary</span> Anthropic — Effective context engineering for AI agents. <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">anthropic.com</a></li>
+    <li><span class="pill p">primary</span> Anthropic — Building effective agents (5 patterns, workflow vs agent). <a href="https://www.anthropic.com/research/building-effective-agents">anthropic.com</a></li>
+    <li><span class="pill p">primary</span> Anthropic — Multi-agent research system (90.2%·15× tokens). <a href="https://www.anthropic.com/engineering/multi-agent-research-system">anthropic.com</a></li>
+    <li><span class="pill p">primary</span> Claude — Multi-agent coordination patterns. <a href="https://claude.com/blog/multi-agent-coordination-patterns">claude.com</a></li>
+    <li><span class="pill p">primary</span> Microsoft Research — The future of AI in knowledge work (CHI 2025, n=319). <a href="https://www.microsoft.com/en-us/research/blog/the-future-of-ai-in-knowledge-work-tools-for-thought-at-chi-2025/">microsoft.com</a></li>
+    <li><span class="pill p">primary</span> DORA 2025 Report — AI as amplifier. <a href="https://dora.dev/dora-report-2025/">dora.dev</a></li>
+    <li><span class="pill p">primary</span> Why Do Multi-Agent LLM Systems Fail? (14 failure modes, Berkeley). <a href="https://arxiv.org/abs/2503.13657">arxiv.org/abs/2503.13657</a></li>
+    <li><span class="pill p">primary</span> METR — Early-2025 AI impact on experienced OSS devs (RCT, +19% slower). <a href="https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/">metr.org</a></li>
+    <li><span class="pill p">primary</span> Anthropic — 2026 Agentic Coding Trends Report. <a href="https://resources.anthropic.com/hubfs/2026%20Agentic%20Coding%20Trends%20Report.pdf">resources.anthropic.com</a></li>
+    <li><span class="pill s">secondary</span> Anthropic 2026 Agentic Coding Report 해설 — Orchestration Era (※ 5대 통제레이어 주장은 본 보고서에서 반증·폐기). <a href="https://www.contextstudios.ai/blog/anthropics-2026-agentic-coding-report-orchestration-era">contextstudios.ai</a></li>
+    <li><span class="pill b">blog</span> What is an agent harness. <a href="https://www.firecrawl.dev/blog/what-is-an-agent-harness">firecrawl.dev</a></li>
+    <li><span class="pill b">blog</span> Agent harness architecture explained. <a href="https://www.mindstudio.ai/blog/what-is-agent-harness-architecture-explained">mindstudio.ai</a></li>
+    <li><span class="pill b">blog</span> AI agent use cases for knowledge workers 2026. <a href="https://www.mindstudio.ai/blog/ai-agent-use-cases-knowledge-workers-2026">mindstudio.ai</a></li>
+    <li><span class="pill b">blog</span> Planner-Generator-Evaluator multi-agent QA. <a href="https://www.shiplight.ai/blog/planner-generator-evaluator-multi-agent-qa">shiplight.ai</a></li>
+    <li><span class="pill b">blog</span> Loop engineering for coding agents (Claude Code 2026). <a href="https://explainx.ai/blog/loop-engineering-coding-agents-claude-code-guide-2026">explainx.ai</a></li>
+    <li><span class="pill b">blog</span> Code agent orchestra (Addy Osmani). <a href="https://addyosmani.com/blog/code-agent-orchestra/">addyosmani.com</a></li>
+    <li><span class="pill b">blog</span> Claude Code subagents. <a href="https://www.tembo.io/blog/claude-code-subagents">tembo.io</a></li>
+    <li><span class="pill b">blog</span> Custom TDD workflow with Claude Code. <a href="https://alexop.dev/posts/custom-tdd-workflow-claude-code-vue/">alexop.dev</a></li>
+    <li><span class="pill b">blog</span> Claude Code multi-agent. <a href="https://shipyard.build/blog/claude-code-multi-agent/">shipyard.build</a></li>
+    <li><span class="pill s">secondary</span> Deep dive into Anthropic's sub-agents. <a href="https://medium.com/codetodeploy/the-architecture-of-scale-a-deep-dive-into-anthropics-sub-agents-6c4faae1abda">medium.com</a></li>
+    <li><span class="pill s">secondary</span> Why multi-agent LLM systems fail & how to fix. <a href="https://www.augmentcode.com/guides/why-multi-agent-llm-systems-fail-and-how-to-fix-them">augmentcode.com</a></li>
+    <li><span class="pill b">blog</span> Agentic coding (Sourcegraph). <a href="https://sourcegraph.com/blog/agentic-coding">sourcegraph.com</a></li>
+    <li><span class="pill s">secondary</span> AI coding adoption statistics 2026. <a href="https://www.digitalapplied.com/blog/ai-coding-adoption-statistics-2026-50-data-points">digitalapplied.com</a></li>
+    <li><span class="pill b">blog</span> Multi-agent orchestration patterns in production. <a href="https://beam.ai/agentic-insights/multi-agent-orchestration-patterns-production">beam.ai</a></li>
+    <li><span class="pill p">primary</span> OpenAI — A practical guide to building agents. <a href="https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/">openai.com</a></li>
+    <li><span class="pill p">primary</span> NIST AIRC — AI Risk Management Framework core. <a href="https://airc.nist.gov/airmf-resources/airmf/">airc.nist.gov</a></li>
+    <li><span class="pill p">primary</span> NIST — Generative AI Profile, NIST.AI.600-1. <a href="https://www.nist.gov/itl/ai-risk-management-framework">nist.gov</a></li>
+    <li><span class="pill p">primary</span> Google Cloud — What is an AI agent? <a href="https://cloud.google.com/discover/what-are-ai-agents">cloud.google.com</a></li>
+  </ol>
+</div></section>
+
+<footer><div class="wrap">
+  생성: Claude Code 딥리서치 하네스 — 6각도 병렬 검색 · 28개 소스 · 128개 주장 추출 · 3표 적대적 검증(2/3 반증 시 폐기) · 24개 통과 / 1개 폐기. 본 문서는 의사결정 보조용 요약이며, 핵심 수치는 원문 출처에서 재확인을 권장합니다.
+</div></footer>
+
+</body>
+</html>
